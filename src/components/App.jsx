@@ -1,22 +1,40 @@
 import React from "react";
-import Card from "./Card";
-import contacts from "../contacts";
-import Avatar from "./Avatar";
+import emojipedia from "../emojipedia";
+import Entry from "./Entry";
 
 function App() {
+  const seperatingChar = "💪; ";
   return (
     <div>
-      <h1 className="heading">My Contacts</h1>
-      <Avatar img="https://media-exp1.licdn.com/dms/image/C5103AQHDxWXPvkwhvQ/profile-displayphoto-shrink_200_200/0?e=1598486400&v=beta&t=4UxJkVndnnV9pR0_ye-105mGWmVJEE0A8-vCjIvcvtw" />
-      {contacts.map((contact, index) => (
-        <Card
-          key={index}
-          name={contact.name}
-          imgURL={contact.imgURL}
-          phone={contact.phone}
-          email={contact.email}
-        />
-      ))}
+      <h1>
+        <span>emojipedia</span>
+      </h1>
+
+      <dl className="dictionary">
+        {emojipedia.map((emojiElement, index) => (
+          <Entry
+            key={index}
+            emoji={emojiElement.emoji}
+            name={emojiElement.name}
+            meaning={emojiElement.meaning}
+          />
+        ))}
+      </dl>
+
+      <p>
+        <span>
+          {emojipedia
+            // map to create a new array of objects
+            .map((emojiElement) => emojiElement.meaning.substring(0, 100))
+            // reduce to accumulate the array to a single accumulated object
+            // just add the seperation to the end from the second object only
+            .reduce((concatStr, originStr) =>
+              concatStr.length
+                ? concatStr + originStr + seperatingChar
+                : originStr
+            )}
+        </span>
+      </p>
     </div>
   );
 }
