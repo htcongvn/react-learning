@@ -3,12 +3,15 @@ import React from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import Note from "./Note";
+import notes from "../notes";
 
 function App() {
   return (
     <React.Fragment>
       <Header />
-      <Note title="This is the note title" content="This is the note content" />
+      {notes.map((note, index) => (
+        <Note key={index} title={note.title} content={note.content} />
+      ))}
       <Footer />
     </React.Fragment>
   );
