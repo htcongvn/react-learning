@@ -9,27 +9,12 @@ function App() {
 
   function handleChange(event) {
     const { name, value } = event.target;
-    setContact((prevContact) => {
-      if (name === "fName") {
-        return {
-          fName: value,
-          lName: prevContact.lName,
-          email: prevContact.email,
-        };
-      } else if (name === "lName") {
-        return {
-          fName: prevContact.fName,
-          lName: value,
-          email: prevContact.email,
-        };
-      } else if (name === "email") {
-        return {
-          fName: prevContact.fName,
-          lName: prevContact.lName,
-          email: value,
-        };
-      }
-    });
+    setContact((prevContact) => ({
+      // Using Spead Operator in ES6 to spread an object to another one, not to nest in it
+      ...prevContact,
+      // [name] takes the value of name variable in ES6
+      [name]: value,
+    }));
   }
 
   function handleClick(event) {
