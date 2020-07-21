@@ -1,53 +1,50 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 function App() {
-  const [contact, setContact] = useState({
-    fName: "",
-    lName: "",
-    email: "",
-  });
+  const [inputText, setInputText] = useState("");
+  const [itemsList, setItemsList] = useState([]);
+  const textInput = useRef(); // useRef Hook to store the textInput DOM element across renders
 
-  function handleChange(event) {
-    const { name, value } = event.target;
-    setContact((prevContact) => ({
-      // Using Spead Operator in ES6 to spread an object to another one, not to nest in it
-      ...prevContact,
-      // [name] takes the value of name variable in ES6
-      [name]: value,
-    }));
+  function handleInputChange(event) {
+    const newInputText = event.target.value;
+    setInputText(newInputText);
   }
 
-  function handleClick(event) {
-    event.preventDefault();
+  function addNewItem() {
+    setItemsList((prevItemsList) => {
+      return [...prevItemsList, inputText];
+    });
+
+    setInputText("");
+    // Explicitly focus the text input using the raw DOM API and accessing "current" to get the DOM node
+    textInput.current.focus();
   }
 
   return (
     <div className="container">
-      <h1>
-        Hello {contact.fName} {contact.lName}
-      </h1>
-      <p>{contact.email}</p>
-      <form>
+      <div className="heading">
+        <h1>To-Do List</h1>
+      </div>
+      <div className="form">
         <input
-          name="fName"
-          placeholder="First Name"
-          onChange={handleChange}
-          value={contact.fName}
+          name="newItem"
+          type="text"
+          placeholder="A new item"
+          onChange={handleInputChange}
+          value={inputText}
+          //tell React that we want to associate the <input> ref with the `textInput` that we created using useRef Hook
+          ref={textInput}
         />
-        <input
-          name="lName"
-          placeholder="Last Name"
-          onChange={handleChange}
-          value={contact.lName}
-        />
-        <input
-          name="email"
-          placeholder="Email"
-          onChange={handleChange}
-          value={contact.email}
-        />
-        <button onClick={handleClick}>Submit</button>
-      </form>
+        <button onClick={addNewItem}>
+          <span>Add</span>
+        </button>
+      </div>
+      <div>
+        <ul>
+          {itemsList.length > 0 &&
+            itemsList.map((item, index) => <li key={index}>{item}</li>)}
+        </ul>
+      </div>
     </div>
   );
 }
