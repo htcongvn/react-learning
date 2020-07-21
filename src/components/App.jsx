@@ -1,73 +1,67 @@
 import React, { useState } from "react";
 
 function App() {
-  const [isMouseOver, setIsMouseOver] = useState(false);
-  const [fullName, setFullName] = useState({
+  const [contact, setContact] = useState({
     fName: "",
     lName: "",
+    email: "",
   });
 
-  function handleClick(event) {
-    console.log(fullName);
-
-    event.preventDefault();
-  }
-
-  function handleMouseOver() {
-    setIsMouseOver(true);
-  }
-
-  function handleMouseOut() {
-    setIsMouseOver(false);
-  }
-
-  function handleFullNameChange(event) {
+  function handleChange(event) {
     const { name, value } = event.target;
-    console.log(name, value);
-
-    setFullName((prevFullName) => {
+    setContact((prevContact) => {
       if (name === "fName") {
         return {
           fName: value,
-          lName: prevFullName.lName,
+          lName: prevContact.lName,
+          email: prevContact.email,
         };
       } else if (name === "lName") {
         return {
-          fName: prevFullName.fName,
+          fName: prevContact.fName,
           lName: value,
+          email: prevContact.email,
+        };
+      } else if (name === "email") {
+        return {
+          fName: prevContact.fName,
+          lName: prevContact.lName,
+          email: value,
         };
       }
     });
   }
 
+  function handleClick(event) {
+    event.preventDefault();
+  }
+
   return (
     <div className="container">
       <h1>
-        Hey {fullName.fName} {fullName.lName}
+        Hello {contact.fName} {contact.lName}
       </h1>
-      <form onSubmit={handleClick}>
+      <p>{contact.email}</p>
+      <form>
         <input
           name="fName"
-          type="text"
-          placeholder="What's your first name?"
-          onChange={handleFullNameChange}
-          value={fullName.fName}
+          placeholder="First Name"
+          onChange={handleChange}
+          value={contact.fName}
         />
         <input
           name="lName"
-          type="text"
-          placeholder="What's your last name?"
-          onChange={handleFullNameChange}
-          value={fullName.lName}
+          placeholder="Last Name"
+          onChange={handleChange}
+          value={contact.lName}
         />
-        <button
-          style={{ backgroundColor: isMouseOver ? "black" : "white" }}
-          type="submit"
-          onMouseOver={handleMouseOver}
-          onMouseOut={handleMouseOut}
-        >
-          Submit
-        </button>
+        <input
+          name="email"
+          placeholder="Email"
+          onChange={handleChange}
+          value={contact.email}
+        />
+        <button onClick={handleClick}>Submit</button>
       </form>
     </div>
   );
