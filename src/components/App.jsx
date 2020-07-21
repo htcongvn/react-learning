@@ -3,11 +3,14 @@ import React, { useState } from "react";
 function App() {
   const [headingText, setHeadingText] = useState("Hi");
   const [isMouseOver, setIsMouseOver] = useState(false);
-  const [name, setName] = useState("");
+  const [lName, setLName] = useState("");
+  const [fName, setFName] = useState("");
 
   function handleClick(event) {
     const [greetingVerb] = headingText.split(" ");
-    setHeadingText((greetingVerb === "Hello" ? "Bonjour " : "Hello ") + name);
+    setHeadingText(
+      (greetingVerb === "Hello" ? "Bonjour " : "Hello ") + lName + " " + fName
+    );
 
     event.preventDefault();
   }
@@ -20,8 +23,12 @@ function App() {
     setIsMouseOver(false);
   }
 
-  function handleChange(event) {
-    setName(event.target.value);
+  function handleLNameChange(event) {
+    setLName(event.target.value);
+  }
+
+  function handleFNameChange(event) {
+    setFName(event.target.value);
   }
 
   return (
@@ -29,10 +36,18 @@ function App() {
       <h1>{headingText}</h1>
       <form onSubmit={handleClick}>
         <input
+          name="fName"
           type="text"
-          placeholder="What's your name?"
-          onChange={handleChange}
-          value={name}
+          placeholder="What's your first name?"
+          onChange={handleFNameChange}
+          value={fName}
+        />
+        <input
+          name="lName"
+          type="text"
+          placeholder="What's your last name?"
+          onChange={handleLNameChange}
+          value={lName}
         />
         <button
           style={{ backgroundColor: isMouseOver ? "black" : "white" }}
