@@ -1,16 +1,14 @@
 import React, { useState } from "react";
 
 function App() {
-  const [headingText, setHeadingText] = useState("Hi");
   const [isMouseOver, setIsMouseOver] = useState(false);
-  const [lName, setLName] = useState("");
-  const [fName, setFName] = useState("");
+  const [fullName, setFullName] = useState({
+    fName: "",
+    lName: "",
+  });
 
   function handleClick(event) {
-    const [greetingVerb] = headingText.split(" ");
-    setHeadingText(
-      (greetingVerb === "Hello" ? "Bonjour " : "Hello ") + lName + " " + fName
-    );
+    console.log(fullName);
 
     event.preventDefault();
   }
@@ -23,31 +21,44 @@ function App() {
     setIsMouseOver(false);
   }
 
-  function handleLNameChange(event) {
-    setLName(event.target.value);
-  }
+  function handleFullNameChange(event) {
+    const { name, value } = event.target;
+    console.log(name, value);
 
-  function handleFNameChange(event) {
-    setFName(event.target.value);
+    setFullName((prevFullName) => {
+      if (name === "fName") {
+        return {
+          fName: value,
+          lName: prevFullName.lName,
+        };
+      } else if (name === "lName") {
+        return {
+          fName: prevFullName.fName,
+          lName: value,
+        };
+      }
+    });
   }
 
   return (
     <div className="container">
-      <h1>{headingText}</h1>
+      <h1>
+        Hey {fullName.fName} {fullName.lName}
+      </h1>
       <form onSubmit={handleClick}>
         <input
           name="fName"
           type="text"
           placeholder="What's your first name?"
-          onChange={handleFNameChange}
-          value={fName}
+          onChange={handleFullNameChange}
+          value={fullName.fName}
         />
         <input
           name="lName"
           type="text"
           placeholder="What's your last name?"
-          onChange={handleLNameChange}
-          value={lName}
+          onChange={handleFullNameChange}
+          value={fullName.lName}
         />
         <button
           style={{ backgroundColor: isMouseOver ? "black" : "white" }}
