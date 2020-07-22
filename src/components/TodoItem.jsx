@@ -1,16 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 
 function TodoItem(props) {
-  const [isLineThrough, setIsLineThrough] = useState(false);
-
-  function handleClick() {
-    setIsLineThrough((prevValue) => !prevValue);
-  }
-
   return (
     <li
-      style={{ textDecoration: isLineThrough ? "line-through" : "none" }}
-      onClick={handleClick}
+      onClick={() => {
+        props.onChecked(props.id);
+      }}
     >
       {props.text}
     </li>

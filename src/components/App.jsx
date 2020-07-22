@@ -22,6 +22,14 @@ function App() {
     textInput.current.focus();
   }
 
+  function deleteItem(itemId) {
+    setItemsList((prevItemsList) => {
+      return prevItemsList.filter((element, index) => {
+        return index !== itemId;
+      });
+    });
+  }
+
   return (
     <div className="container">
       <div className="heading">
@@ -45,7 +53,12 @@ function App() {
         <ul>
           {itemsList.length > 0 &&
             itemsList.map((item, index) => (
-              <TodoItem key={index} id={index} text={item} />
+              <TodoItem
+                key={index}
+                id={index}
+                text={item}
+                onChecked={deleteItem}
+              />
             ))}
         </ul>
       </div>
