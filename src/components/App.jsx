@@ -1,5 +1,7 @@
 import React, { useState, useRef } from "react";
 
+import TodoItem from "./TodoItem";
+
 function App() {
   const [inputText, setInputText] = useState("");
   const [itemsList, setItemsList] = useState([]);
@@ -42,7 +44,9 @@ function App() {
       <div>
         <ul>
           {itemsList.length > 0 &&
-            itemsList.map((item, index) => <li key={index}>{item}</li>)}
+            itemsList.map((item, index) => (
+              <TodoItem key={index} id={index} text={item} />
+            ))}
         </ul>
       </div>
     </div>
