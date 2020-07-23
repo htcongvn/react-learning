@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 
 import TodoItem from "./TodoItem";
+import Input from "./Input";
 
 function App() {
   const [inputText, setInputText] = useState("");
@@ -8,6 +9,7 @@ function App() {
   const textInput = useRef(); // useRef Hook to store the textInput DOM element across renders
 
   function handleInputChange(event) {
+    console.log(event.target.value);
     const newInputText = event.target.value;
     setInputText(newInputText);
   }
@@ -36,14 +38,16 @@ function App() {
         <h1>To-Do List</h1>
       </div>
       <div className="form">
-        <input
-          name="newItem"
+        <Input
+          name="inputItem"
           type="text"
           placeholder="A new item"
           onChange={handleInputChange}
           value={inputText}
           //tell React that we want to associate the <input> ref with the `textInput` that we created using useRef Hook
-          ref={textInput}
+          //in a custom react component, use a prop name which is different from ref of input component
+          // can we use forwardRef() to pass ref from a react parent to its child component, read this?
+          inputRef={textInput}
         />
         <button onClick={addNewItem}>
           <span>Add</span>

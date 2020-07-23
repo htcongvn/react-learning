@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 function TodoItem(props) {
   return (
@@ -11,5 +12,10 @@ function TodoItem(props) {
     </li>
   );
 }
+TodoItem.propTypes = {
+  text: PropTypes.string.isRequired,
+  id: PropTypes.number,
+  onChecked: PropTypes.func,
+};
 
 export default TodoItem;
